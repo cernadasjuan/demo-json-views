@@ -3,9 +3,15 @@ package com.onready.jsonviews.domain;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.onready.jsonviews.view.RoleView;
 
-public class Person {
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import java.io.Serializable;
+
+@Entity
+public class Person implements Serializable {
 
     @JsonView(RoleView.Admin.class)
+    @Id
     private Long id;
     @JsonView(RoleView.User.class)
     private String name;
@@ -15,14 +21,6 @@ public class Person {
     private int age;
     @JsonView(RoleView.Admin.class)
     private String password;
-
-    public Person(Long id, String name, String lastName, int age, String password) {
-        this.id = id;
-        this.name = name;
-        this.lastName = lastName;
-        this.age = age;
-        this.password = password;
-    }
 
     public Long getId() {
         return id;

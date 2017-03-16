@@ -2,6 +2,7 @@ package com.onready.jsonviews.controller.rest;
 
 import com.onready.jsonviews.config.RoleViewProperties;
 import com.onready.jsonviews.domain.Person;
+import com.onready.jsonviews.service.PersonService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJacksonValue;
@@ -18,14 +19,16 @@ import javax.servlet.http.HttpServletRequest;
 public class PersonRestController {
 
     private final RoleViewProperties roleViewProperties;
+    private final PersonService personService;
 
-    public PersonRestController(RoleViewProperties roleViewProperties) {
+    public PersonRestController(RoleViewProperties roleViewProperties, PersonService personService) {
         this.roleViewProperties = roleViewProperties;
+        this.personService = personService;
     }
 
     @GetMapping("{id}")
     public ResponseEntity<MappingJacksonValue> findOne(@PathVariable Long id, HttpServletRequest httpServletRequest) throws ClassNotFoundException {
-        Person person = new Person(1L, "John", "Doe", 34, "123456");
+        Person person = personService.findOne(id);
         MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(person);
         String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().get().getAuthority();
         mappingJacksonValue.setSerializationView(roleViewProperties.getView(role));
