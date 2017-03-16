@@ -1,4 +1,4 @@
-package com.onready.jsonviews.domain.controller.rest;
+package com.onready.jsonviews.controller.rest;
 
 import com.onready.jsonviews.config.RoleViewProperties;
 import com.onready.jsonviews.domain.Person;
